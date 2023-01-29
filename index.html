@@ -56,11 +56,10 @@
           language: "chinese",
         },
         plugins: [
-          // EditOnGithubPlugin.create('https://github.com/xieerduos/xieerduos.github.io/blob/main/', null, '编辑'),
           function (hook, vm) {
             hook.beforeEach(function (html) {
               var url =
-                "https://github.com/xieerduos/xieerduos.github.io/blob/main/" +
+                "https://github.com/taylorqqq/taylorqqq.github.io/blob/blog/" +
                 vm.route.file;
               var editHtml = "[📝 EDIT DOCUMENT](" + url + ")\n";
 

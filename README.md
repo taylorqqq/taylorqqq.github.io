@@ -1,14 +1,5 @@
 ## Vue 相关面试题
 
-文档地址
-https://xieerduos.github.io
-11
-https://ffffee.com (国内访问)
-
-需要加微信群技术交流群的
-艾特群管理发二维码
-微信群回复更快更及时
-
 - Vue 和 React 有什么区别？
 - Vue 是如何实现数据双向绑定的？
 - Vue 组件中的 props 和 data 有什么区别？

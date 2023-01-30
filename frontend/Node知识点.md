@@ -68,7 +68,7 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 });
 在这个例子中，readFile 函数的第三个参数是一个回调函数，它在文件读取完成后被调用。回调函数有两个参数：一个是错误对象，另一个是读取到的数据。
 
-2.另一个常用的异步 I/O 方法是使用 Promises。Promise 是一种特殊的对象，它表示一个异步操作的最终结果。
+2.另一个常用的异步 I/O 方法是使用 Promise。Promise 是一种特殊的对象，它表示一个异步操作的最终结果。
 例如，使用 Promise 读取文件可以这样写：
 const fs = require('fs');
 
@@ -140,23 +140,125 @@ server.listen(3000, () => {
 ### 7. 如何使用 Node.js 连接到数据库？
 
 ```js
+在 Node.js 中，可以使用第三方库连接到数据库。常见的数据库驱动有 MySQL, MongoDB, Redis 等。
 
+1. MySQL
+const mysql = require('mysql'); // 引入 mysql 模块
+
+const connection = mysql.createConnection({ // 创建连接
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'test'
+});
+
+connection.connect((err) => { // 连接数据库
+  if (err) throw err;
+  console.log('Connected to MySQL!');
+});
+
+2. MongoDB
+const mongoose = require('mongoose'); // 引入 mongoose 模块
+
+mongoose.connect('mongodb://localhost/test', { useNewUrlParser: true }); // 连接数据库
+
+const db = mongoose.connection; // 获取连接对象
+db.on('error', console.error.bind(console, 'connection error:')); // 绑定连接错误事件
+db.once('open', function() { // 绑定连接成功事件
+  console.log('Connected to MongoDB!');
+});
+
+3. Redis
+const redis = require('redis'); // 引入 redis 模块
+
+const client = redis.createClient(); // 创建客户端
+
+client.on('connect', () => { // 绑定连接事件
+    console.log('Connected to Redis!');
+});
+
+对于不同的数据库，需要使用不同的驱动，但都可以使用类似的方式来连接和操作数据库。
+另外，使用数据库连接池来管理连接，可以有效提高性能。
 ```
 
 ### 8. 如何在 Node.js 中使用流？
 
 ```js
+在 Node.js 中，可以使用流来进行高效的 I/O 操作。流是一种抽象的数据结构，可以从一个源读取数据并写入到一个目标中。
 
+在 Node.js 中，有以下几种流类型：
+1.Readable 流：允许从流中读取数据
+const fs = require('fs');
+
+const readable = fs.createReadStream('./file.txt');
+
+readable.on('data', (chunk) => {
+  console.log(`Received ${chunk.length} bytes of data`);
+});
+
+readable.on('end', () => {
+  console.log('There will be no more data.');
+});
+
+2.Writable 流：允许向流中写入数据
+const fs = require('fs');
+
+const writable = fs.createWriteStream('./file.txt');
+
+writable.write('Hello World!');
+
+writable.end();
+
+3.Duplex 流：是 Readable 和 Writable 流的结合
+
+4.Transform 流：是一种特殊的 Duplex 流，可以对从读取的数据进行变换
+const { Transform } = require('stream');
+
+const upperCaseTransformer = new Transform({
+  transform(chunk, encoding, callback) {
+    this.push(chunk.toString().toUpperCase());
+    callback();
+  }
+});
+
+process.stdin.pipe(upperCaseTransformer).pipe(process.stdout);
+
+通过使用流，可以有效减少内存使用，并且在读取和写入大量数据时，能够大大提高性能。
 ```
 
 ### 9. Node.js 的性能如何？
 
 ```js
+Node.js 的性能表现良好，特别是在处理高并发 I/O 请求方面。它的单线程模型可以充分利用多核处理器的优势，有效减少线程切换带来的开销。
+另外，Node.js 的事件驱动架构使得它能够快速响应大量并发请求，并在请求处理完成后快速返回。
+不过，Node.js 在处理 CPU 密集型任务方面的性能不如其他语言，因为它是单线程的。但是，通过使用子进程或线程池，可以有效地缓解这个问题。
 
+总体而言，Node.js 的性能表现良好，且适合大量 I/O 密集型任务的处理。
 ```
 
-### 10. 如何在 Node.js 中使用 Promises 来进行异步编程?
+### 10. 如何在 Node.js 中使用 Promise 来进行异步编程?
 
 ```js
+在 Node.js 中使用 Promise 进行异步编程可以简化代码结构，提高代码可读性。
 
+1.首先，安装 "promise" 模块，使用 npm 命令安装：
+npm install promise
+
+2.引入 "promise" 模块：
+var Promise = require("promise");
+
+3.创建 Promise 对象：
+var promise = new Promise(function (resolve, reject) {
+  // 模拟异步任务
+  setTimeout(function () {
+    resolve("Promise resolved.");
+  }, 1000);
+});
+
+4.使用 ".then()" 方法处理异步任务的结果：
+promise.then(function (value) {
+  console.log(value);
+});
+
+使用 Promise 可以简化回调函数的嵌套，使代码更加简洁易读。此外，Promise 还提供了 ".catch()" 和 ".finally()" 等方法，用于处理错误和完成操作。
 ```

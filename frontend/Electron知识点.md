@@ -1,7 +1,9 @@
 ### 1. 什么是 Electron？
 
 ```js
-Electron 是一个开源框架，可以使用 JavaScript, HTML 和 CSS 构建跨平台桌面应用程序。Electron 通过在 Chromium 和 Node.js 之上构建应用程序，使开发人员能够使用熟悉的 Web 技术来开发桌面应用程序。 Electron 应用程序可以在 Windows, MacOS 和 Linux 上运行。
+Electron 是一个开源框架，可以使用 JavaScript, HTML 和 CSS 构建跨平台桌面应用程序。
+Electron 通过在 Chromium 和 Node.js 之上构建应用程序，使开发人员能够使用熟悉的 Web 技术来开发桌面应用程序。
+Electron 应用程序可以在 Windows, MacOS 和 Linux 上运行。
 ```
 
 ### 2. Electron 应用是由哪些部分组成的？

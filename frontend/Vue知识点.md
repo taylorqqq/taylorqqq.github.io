@@ -606,3 +606,116 @@ Vuex 是一个专门用于 Vue.js 应用程序的状态管理模式。它采用�
 7.创建 store 实例：在 main.js 文件中创建一个 store 实例，并将其挂载到 Vue 实例上
 8.使用 vuex 的组件：在需要使用 vuex 的组件中调用 state、mutations、actions 和 getters。
 ```
+
+### 34. Vue 中的事件修饰符有哪些？
+
+```js
+Vue事件修饰符是在事件处理程序中使用的特殊附加功能，用于表示事件的修饰符。
+事件修饰符有以下几种：
+1.stop：阻止冒泡
+2.prevent：阻止默认事件
+3.capture：添加事件侦听器时使用事件捕获模式
+4.self：只当事件是从侦听器绑定的元素本身触发时调用处理程序
+5.once：事件只触发一次
+
+事件修饰符可以在模板中与事件处理程序一起使用，例如：
+<button v-on:click.stop="doThis"></button>
+
+事件修饰符可以链式调用,执行顺序是从右到左，例如：
+<button @click.stop.prevent="doThis"></button>
+```
+
+### 35. Vue 中的按键修饰符有哪些？
+
+```js
+Vue 按键修饰符是在事件处理程序中使用的特殊附加功能，用于表示按键的修饰符。
+按键修饰符有以下几种：
+1.enter：回车键
+2.tab：tab 键
+3.delete：delete 键
+4.esc：esc 键
+5.space：space 键
+6.up：向上键
+7.down：向下键
+8.left：向左键
+9.right：向右键
+10.exact：精确匹配按键修饰符（仅在按下的是指定的按键时触发）
+
+你可以直接使用 KeyboardEvent.key 暴露的按键名称作为修饰符，但需要转为 kebab-case 形式。
+例如：
+<input @keyup.enter="onEnter" />
+// 等价于使用 keyCode 修饰符：
+<input @keyup.13="onEnter" />
+
+系统按键修饰符有以下几种：
+1.ctrl：ctrl 键
+2.alt：alt 键
+3.shift：shift 键
+4.meta：meta 键
+
+系统按键修饰符写法：
+<input @keyup.ctrl="onCtrl" />
+
+鼠标按键修饰符有以下几种：
+1.left：鼠标左键
+2.right：鼠标右键
+3.middle：鼠标中键
+鼠标按键修饰符写法：
+<button @click.middle="doThis"></button>
+```
+
+### 36. Vue 中的自定义指令有哪些？
+
+```js
+Vue 自定义指令是一个函数，接收三个参数：
+1.el：指令所绑定的元素，可以用来直接操作 DOM
+2.binding：一个对象，包含以下属性：
+  name：指令名，不包括 v- 前缀
+  value：指令的绑定值，例如：v-my-directive="1 + 1" 中，绑定值为 2
+  oldValue：指令绑定的前一个值，仅在 update 和 componentUpdated 钩子中可用。无论值是否改变都可用
+  expression：字符串形式的指令表达式。例如 v-my-directive="1 + 1" 中，表达式为 "1 + 1"
+  arg：传给指令的参数，可选。例如 v-my-directive:foo 中，参数为 "foo"
+  modifiers：一个包含修饰符的对象。例如：v-my-directive.foo.bar 中，修饰符对象为 { foo: true, bar: true }
+3.vnode：Vue 编译生成的虚拟节点
+4.oldVnode：上一个虚拟节点，仅在 update 和 componentUpdated 钩子中可用
+```
+
+<!-- ### 37. Vue2 和 Vue3 的区别有哪些？
+```js
+1.模板语法
+  Vue2 中的模板语法是基于 HTML 的模板引擎，Vue3 中的模板语法是基于 JavaScript 的模板引擎。
+2.响应式系统
+  Vue2 中的响应式系统是基于 Object.defineProperty 的，Vue3 中的响应式系统是基于 Proxy 的。
+3.编译器
+  Vue2 中的编译器是基于正则表达式的，Vue3 中的编译器是基于 AST 的。
+4.性能
+  Vue2 中的性能是基于优化的，Vue3 中的性能是基于重写的。
+5.生命周期
+  Vue2 中的生命周期有 11 个，常用的有 8 个，不常用的有 3 个，分别是：
+  beforeCreate：实例初始化之后，数据观测(data observer)和 event/watcher 事件配置之前被调用
+  created：实例创建完成后被立即调用，此时完成了数据观测，属性和方法的运算，watch/event 事件回调
+  beforeMount：在挂载开始之前被调用：相关的 render 函数首次被调用
+  mounted：el 被新创建的 vm.$el 替换，并挂载到实例上去之后调用该钩子
+  beforeUpdate：数据更新时调用，发生在虚拟 DOM 打补丁之前
+  updated：由于数据更改导致的虚拟 DOM 重新渲染和打补丁，在这之后会调用该钩子
+  activated：keep-alive 组件激活时调用
+  deactivated：keep-alive 组件停用时调用
+  beforeDestroy：实例销毁之前调用。在这一步，实例仍然完全可用
+  destroyed：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁
+  errorCaptured：当捕获一个来自子孙组件的错误时被调用
+
+  Vue3 中的生命周期有 12 个，常用的有 8 个，不常用的有 4 个，分别是：
+  onBeforeMount：在挂载开始之前被调用：相关的 render 函数首次被调用
+  onMounted：组件挂载完成后执行
+  onBeforeUpdate：在组件即将因为响应式状态变更而更新其 DOM 树之前调用。
+  onUpdated：在组件因为响应式状态变更而更新其 DOM 树之后调用。
+  onBeforeUnmount：实例销毁之前调用。在这一步，实例仍然完全可用
+  onUnmounted：Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除，所有的子实例也会被销毁
+  onActivated：keep-alive 组件激活时调用
+  onDeactivated：keep-alive 组件停用时调用
+  onErrorCaptured：当捕获一个来自子孙组件的错误时被调用
+  onRenderTracked：跟踪一个响应式引用的 getter 调用时调用
+  onRenderTriggered：当触发一个响应式引用的 setter 时调用
+  onServerPrefetch：在组件渲染之前调用。只会在服务器端渲染期间被调用
+6.其他
+``` -->

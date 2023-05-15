@@ -3,3 +3,4 @@
 - [Electron 知识点](frontend/Electron知识点.md)
 - [Node 知识点](frontend/Node知识点.md)
 - [面试题记录](frontend/面试题记录.md)
+- [Lodash 使用记录](frontend/Lodash使用记录.md)

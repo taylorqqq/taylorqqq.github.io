@@ -171,4 +171,188 @@ arr.fill("a");
 _.fill(Array(3), 2);
 ```
 
-<!-- ## 12 \_.findIndex(array, [predicate=_.identity], [fromIndex=0]) -->
+## 12 \_.findIndex(array, [predicate=_.identity], [fromIndex=0])
+
+该方法类似\_.find，区别是该方法返回第一个通过 predicate 判断为真值的元素的索引值（index），而不是元素本身。
+
+```js
+let arr = [1, 2, 3, 4];
+_.findIndex(arr, (item) => item > 2);
+// => 2
+// 等价于
+arr.findIndex((item) => item > 2);
+```
+
+## 13 \_.findLastIndex(array, [predicate=_.identity], [fromIndex=array.length-1])
+
+这个方式类似\_.findIndex， 区别是它是从右到左的迭代集合 array 中的元素。
+
+```js
+let arr = [1, 2, 3, 4];
+_.findLastIndex(arr, (item) => item > 2);
+// => 3
+```
+
+## 14 \_.flatten(array)
+
+减少一级 array 嵌套深度。
+
+```js
+let arr = [1, [2, [3, [4]], 5]];
+_.flatten(arr);
+// => [1, 2, [3, [4]], 5]
+
+// 等价于
+arr.flat();
+```
+
+## 15 \_.flattenDeep(array)
+
+将 array 递归为一维数组。
+
+```js
+let arr = [1, [2, [3, [4]], 5]];
+_.flattenDeep(arr);
+// => [1, 2, 3, 4, 5]
+
+// 等价于
+arr.flat(Infinity);
+```
+
+## 16 \_.flattenDepth(array, [depth=1])
+
+根据 depth 递归减少 array 的嵌套层级
+
+```js
+let arr = [1, [2, [3, [4]], 5]];
+\_.flattenDepth(arr, 1);
+// => [1, 2, [3, [4]], 5]
+\_.flattenDepth(arr, 2);
+// => [1, 2, 3, [4], 5]
+
+// 等价于
+arr.flat(2);
+```
+
+## 17 \_.fromPairs(pairs)
+
+与\_.toPairs 正好相反；这个方法返回一个由键值对 pairs 构成的对象。
+
+```js
+_.fromPairs([
+  ["a", 1],
+  ["b", 2],
+]);
+// => { 'a': 1, 'b': 2 }
+
+// 等价于
+Object.fromEntries([
+  ["a", 1],
+  ["b", 2],
+]);
+```
+
+## 18 \_.head(array)
+
+获取数组 array 的第一个元素。
+
+```js
+let arr = [1, 2, 3];
+_.head(arr);
+// => 1
+
+// 等价于
+arr[0];
+```
+
+## 19 \_.indexOf(array, value, [fromIndex=0])
+
+使用 SameValueZero 等值比较，返回首次 value 在数组 array 中被找到的 索引值， 如果 fromIndex 为负值，将从数组 array 尾端索引进行匹配。
+
+```js
+let arr = [1, 2, 3, 4];
+_.indexOf(arr, 2);
+// => 1
+
+// 等价于
+arr.indexOf(2);
+```
+
+## 20 \_.initial(array)
+
+获取数组 array 中除了最后一个元素之外的所有元素（注：去除数组 array 中的最后一个元素）。
+
+```js
+let arr = [1, 2, 3];
+_.initial(arr);
+// => [1, 2]
+
+// 等价于
+arr.slice(0, -1);
+```
+
+## 21 \_.intersection([arrays])
+
+创建唯一值的数组，这个数组包含所有给定数组都包含的元素，使用 SameValueZero 进行相等性比较。（注：可以理解为给定数组的交集）
+
+```js
+let arr = [1, 2, 3];
+let arr2 = [2, 3, 4];
+_.intersection(arr, arr2);
+// => [2, 3]
+
+// 等价于
+arr.filter((item) => arr2.includes(item));
+```
+
+## 22 \_.intersectionBy([arrays], [iteratee=_.identity])
+
+这个方法类似 \_.intersection，除了它接受一个 iteratee（迭代函数），调用每一个数组和值以产生一个值，通过产生的值进行了比较。
+
+```js
+let arr = [1.2, 2.3, 3.4];
+let arr2 = [2.4, 3.5, 4.6];
+_.intersectionBy(arr, arr2, Math.floor);
+// => [2.3, 3.4]
+
+// 等价于
+arr.filter((item) => arr2.map(Math.floor).includes(Math.floor(item)));
+```
+
+## 23 \_.intersectionWith([arrays], [comparator])
+
+这个方法类似\_.intersection，区别是它接受一个 comparator 调用比较 arrays 中的元素。结果值是从第一数组中选择。comparator 会传入两个参数：(arrVal, othVal)。
+
+```js
+let arr = [1, 2, 3];
+let arr2 = [2, 3, 4];
+_.intersectionWith(arr, arr2, _.isEqual);
+// => [2, 3]
+
+// 等价于
+let isEqual = (value, other) => {
+  if (value === other) return true;
+  if (typeof value !== typeof other) return false;
+  if (typeof value !== "object") return false;
+  if (Array.isArray(value) !== Array.isArray(other)) return false;
+  if (Object.keys(value).length !== Object.keys(other).length) return false;
+  for (let key in value) {
+    if (!isEqual(value[key], other[key])) return false;
+  }
+  return true;
+};
+arr.filter((item) => arr2.some((item2) => isEqual(item, item2)));
+```
+
+## 24 \_.join(array, [separator=','])
+
+将 array 中的所有元素转换为由 separator 分隔的字符串。
+
+```js
+let arr = [1, 2, 3];
+_.join(arr, "-");
+// => '1-2-3'
+
+// 等价于
+arr.join("-");
+```

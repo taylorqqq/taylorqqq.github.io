@@ -835,3 +835,88 @@ for (let i = 0; i < arr.length; i++) {
   }
 }
 ```
+
+## 52 \_.uniq(array)
+
+创建一个去重后的 array 数组副本。使用了 SameValueZero 做等值比较。只有第一次出现的元素才会被保留。
+
+```js
+let arr = [2, 1, 2, 1, 3];
+_.uniq(arr);
+// => [2, 1, 3]
+
+// 等价于
+let result = [];
+for (let i = 0; i < arr.length; i++) {
+  if (result.indexOf(arr[i]) === -1) {
+    result.push(arr[i]);
+  }
+}
+```
+
+## 53 \_.uniqBy(array, [iteratee=_.identity])
+
+这个方法类似\_.uniq ，除了它接受一个 iteratee （迭代函数），调用每一个数组（array）的每个元素以产生唯一性计算的标准。iteratee 调用时会传入一个参数：(value)。
+
+```js
+let arr = [2.1, 1.2, 2.3];
+_.uniqBy(arr, Math.floor);
+// => [2.1, 1.2]
+
+// 等价于
+let result = [];
+for (let i = 0; i < arr.length; i++) {
+  if (result.indexOf(Math.floor(arr[i])) === -1) {
+    result.push(arr[i]);
+  }
+}
+```
+
+## 54 \_.uniqWith(array, [comparator])
+
+这个方法类似\_.uniq， 除了它接受一个 comparator 调用比较 arrays 数组的每一个元素。 comparator 调用时会传入 2 个参数： (arrVal, othVal)。
+
+```js
+let arr = [
+  { x: 1, y: 2 },
+  { x: 2, y: 1 },
+  { x: 1, y: 2 },
+];
+_.uniqWith(arr, _.isEqual);
+// => [{ 'x': 1, 'y': 2 }, { 'x': 2, 'y': 1 }]
+
+// 等价于
+let isEqual function (arrVal, othVal) {
+  return arrVal.x === othVal.x && arrVal.y === othVal.y;
+}
+
+let result = [];
+for (let i = 0; i < arr.length; i++) {
+  if (result.indexOf(isEqual(arr[i], arr[i + 1])) === -1) {
+    result.push(arr[i]);
+  }
+}
+```
+
+## 55 \_.unzip(array)
+
+这个方法类似于\_.zip，除了它接收分组元素的数组，并且创建一个数组，分组元素到打包前的结构。（：返回数组的第一个元素包含所有的输入数组的第一元素，第一个元素包含了所有的输入数组的第二元素，依此类推。）
+
+```js
+let arr = [
+  [1, 2],
+  [10, 20],
+];
+_.unzip(arr);
+// => [[1, 10], [2, 20]]
+
+// 等价于
+let result = [];
+for (let i = 0; i < arr[0].length; i++) {
+  let temp = [];
+  for (let j = 0; j < arr.length; j++) {
+    temp.push(arr[j][i]);
+  }
+  result.push(temp);
+}
+```
